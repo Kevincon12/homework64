@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axiosApi from "../../axiosApi.ts";
 
 interface PostsInterface {
@@ -12,6 +12,21 @@ const PostReadMore = () => {
     const {id} = useParams<{id: string}>();
     const [loading, setLoading] = useState(false);
     const [post, setPost] = useState<PostsInterface>([]);
+
+    const navigate = useNavigate();
+
+    const deletePost = async () => {
+        setLoading(true);
+
+        try {
+            await axiosApi.delete(`/posts/${id}.json`);
+            navigate('/');
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
         const getCurrentPost = async () => {
@@ -29,7 +44,7 @@ const PostReadMore = () => {
 
         getCurrentPost();
 
-    }, [id])
+    }, [id]);
 
     return (
         <div>
@@ -49,7 +64,10 @@ const PostReadMore = () => {
                     <p className="text-muted">{new Date(post.date).toLocaleString()}</p>
 
                     <div className="d-flex gap-2 mt-3">
-                        <button className="btn btn-warning">Delete post</button>
+                        <button
+                            className="btn btn-warning"
+                            onClick={deletePost}
+                        >Delete post</button>
                         <button className="btn btn-secondary">Edit post</button>
                     </div>
                 </div>
