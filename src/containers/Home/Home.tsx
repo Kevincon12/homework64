@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axiosApi from "../../axiosApi.ts";
+import {Link} from "react-router-dom";
 
 interface PostsInterface {
     date: string;
@@ -55,11 +56,11 @@ const Home = () => {
                 <div key={post.id} className='card mt-3 p-3 shadow-sm'>
                     <p>Created on: {post.date}</p>
                     <p><strong>Title:</strong> {post.title}</p>
-                    <button
+                    <Link
+                        to={`/posts/${post.id}`}
                         className='btn btn-primary btn-sm mt-2'
                         style={{ width: 'fit-content' }}
-                        type='button'
-                    >Read more {'>>>>'}</button>
+                    >Read more {'>>>>'}</Link>
                 </div>
             ))}
         </div>
