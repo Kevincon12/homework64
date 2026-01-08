@@ -2,7 +2,7 @@ const About = () => {
     return (
         <div className="row mt-3">
             <div className="col-12 col-md-8">
-                <h2 className="mb-3">Почему именно кино</h2>
+                <h2 className="mb-3">About</h2>
 
                 <p>
                     Здесь просто немного текста для заполнения страницы.

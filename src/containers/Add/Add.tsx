@@ -1,19 +1,52 @@
 import React, {useState} from 'react';
+import axiosApi from "../../axiosApi.ts";
+import {useNavigate} from "react-router-dom";
 
 const Add = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const sendPost = (e: React.FormEvent) => {
+    const sendPost = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(title, description);
-        setTitle('');
-        setDescription('');
+
+        const postData = {
+            title: title,
+            description: description,
+            date: new Date().toISOString()
+        };
+
+        setLoading(true);
+
+        try {
+            await axiosApi.post('/posts.json', postData);
+            navigate('/');
+
+            setTitle('');
+            setDescription('');
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoading(false);
+        }
+
     }
 
     return (
         <div>
             <h2>Add new Post</h2>
+
+            {loading && (
+                <div className="text-center my-3">
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Sending</span>
+                    </div>
+                </div>
+            )}
+
+
+
             <form onSubmit={sendPost}>
                 <div>
                     <label htmlFor="title" className='form-label'>Title</label>
@@ -24,6 +57,7 @@ const Add = () => {
                         placeholder="Title"
                         value={title}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+                        required
                     />
                 </div>
 
