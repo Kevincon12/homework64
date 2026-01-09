@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axiosApi from "../../axiosApi.ts";
 
 interface PostsInterface {
     date: string;
     description: string;
     title: string;
+    id: string;
 }
 
 const PostReadMore = () => {
     const {id} = useParams<{id: string}>();
     const [loading, setLoading] = useState(false);
-    const [post, setPost] = useState<PostsInterface>([]);
+    const [post, setPost] = useState<PostsInterface | null>(null);
 
     const navigate = useNavigate();
 
@@ -34,7 +35,7 @@ const PostReadMore = () => {
 
             try {
                 const response = await axiosApi.get(`/posts/${id}.json`);
-                setPost(response.data);
+                setPost({ id, ...response.data });
             } catch (e) {
                 console.error(e);
             } finally {
@@ -68,7 +69,10 @@ const PostReadMore = () => {
                             className="btn btn-warning"
                             onClick={deletePost}
                         >Delete post</button>
-                        <button className="btn btn-secondary">Edit post</button>
+                        <Link
+                            to={`/posts/${post.id}/edit`}
+                            className="btn btn-secondary"
+                        >Edit post</Link>
                     </div>
                 </div>
             )}

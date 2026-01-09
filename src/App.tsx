@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import Toolbar from "./components/Toolbar/Toolbar.tsx";
 import {Route, Routes} from "react-router-dom";
@@ -7,10 +6,9 @@ import Contacts from "./containers/Contacts/Contacts.tsx";
 import Add from "./containers/Add/Add.tsx";
 import Home from "./containers/Home/Home.tsx";
 import PostReadMore from "./containers/PostReadMore/PostReadMore.tsx";
+import Editpost from "./containers/Editpost/Editpost.tsx";
 
 const App = () => {
-  const [count, setCount] = useState(0)
-
   return (
     <>
         <header>
@@ -23,8 +21,8 @@ const App = () => {
                 <Route path='/new-post' element={(<Add/>)}/>
                 <Route path='/about' element={(<About/>)}/>
                 <Route path='/contacts' element={(<Contacts/>)}/>
+                <Route path='/posts/:id/edit' element={(<Editpost/>)}/>
                 <Route path='/posts/:id' element={(<PostReadMore/>)}/>
-
             </Routes>
         </main>
     </>

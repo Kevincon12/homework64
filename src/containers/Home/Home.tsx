@@ -6,6 +6,7 @@ interface PostsInterface {
     date: string;
     description: string;
     title: string;
+    id: string;
 }
 
 const Home = () => {
